@@ -5,8 +5,8 @@ import back.repo.domain.Book;
 import back.repo.domain.CheckoutRecord;
 import back.repo.domain.LibraryMember;
 import back.service.BaseService;
-import back.service.auth.AuthService;
-import back.service.auth.IAuthService;
+import back.service.member.IMemberService;
+import back.service.member.MemberService;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -14,10 +14,10 @@ import java.util.HashMap;
 public class BookService extends BaseService implements IBookService {
 
     private static final BookService INSTANCE = new BookService();
-    private final IAuthService authService;
+    private final IMemberService memberService;
 
     public BookService() {
-        authService = AuthService.getInstance();
+        memberService = MemberService.getInstance();
     }
 
     @Override
@@ -35,7 +35,7 @@ public class BookService extends BaseService implements IBookService {
 
     @Override
     public void checkout(String memberId, String isbn) throws EntityNotFoundException, BookNotAvailableException {
-        LibraryMember member = authService.findById(memberId);
+        LibraryMember member = memberService.findById(memberId);
         Book book = findBook(isbn);
 
         if (book.getNextAvailableCopy() == null) {

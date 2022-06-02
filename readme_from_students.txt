@@ -1,0 +1,1 @@
+1. run main() method from Start class in root

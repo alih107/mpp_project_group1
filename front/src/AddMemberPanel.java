@@ -77,7 +77,12 @@ public class AddMemberPanel extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            JOptionPane.showMessageDialog(null, "Member saved!");
+            performSaveMember();
         }
+    }
+
+    private void performSaveMember() {
+        // TODO: connect to back
+        JOptionPane.showMessageDialog(null, "Member saved!");
     }
 }

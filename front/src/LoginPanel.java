@@ -52,8 +52,7 @@ public class LoginPanel extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             performLogin();
-            LibraryFrame.loginPanel.setVisible(false);
-            LibraryFrame.systemPanel.setVisible(true);
+            messageLabel.setText("Invalid username and/or password");
         }
 
     }
@@ -69,7 +68,8 @@ public class LoginPanel extends JPanel {
         public void keyPressed(KeyEvent e) {
             if (e.getKeyCode()==KeyEvent.VK_ENTER){
                 performLogin();
-                messageLabel.setText("Invalid username and/or password");
+                LibraryFrame.loginPanel.setVisible(false);
+                LibraryFrame.systemPanel.setVisible(true);
             }
         }
 

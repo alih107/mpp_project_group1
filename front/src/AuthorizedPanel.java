@@ -2,6 +2,7 @@ package front.src;
 
 import back.controller.auth.AuthController;
 import back.controller.auth.IAuthController;
+import back.repo.domain.Role;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -55,13 +56,16 @@ public class AuthorizedPanel extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            authController.logout();
+            workingPanel.setVisible(false);
+            librarianPanel.setVisible(false);
+            administratorPanel.setVisible(false);
             LibraryFrame.loginPanel.setVisible(true);
             LibraryFrame.systemPanel.setVisible(false);
+            authController.logout();
         }
     }
 
-    private static class MenuListListener implements ListSelectionListener {
+    private class MenuListListener implements ListSelectionListener {
 
         @Override
         public void valueChanged(ListSelectionEvent e) {
@@ -70,13 +74,21 @@ public class AuthorizedPanel extends JPanel {
                 String menuChoice = menuList.getSelectedValue();
                 switch (menuChoice) {
                     case "Librarian" -> {
-                        administratorPanel.setVisible(false);
-                        librarianPanel.setVisible(true);
-                        CheckoutPanel.memberIDField.requestFocus();
+                        if (authController.hasAccess(Role.LIBRARIAN)) {
+                            administratorPanel.setVisible(false);
+                            librarianPanel.setVisible(true);
+                            CheckoutPanel.memberIDField.requestFocus();
+                        } else {
+                            JOptionPane.showMessageDialog(null, "You don\'t have access to Librarian panel!");
+                        }
                     }
                     case "Administrator" -> {
-                        administratorPanel.setVisible(true);
-                        librarianPanel.setVisible(false);
+                        if (authController.hasAccess(Role.ADMIN)) {
+                            administratorPanel.setVisible(true);
+                            librarianPanel.setVisible(false);
+                        } else {
+                            JOptionPane.showMessageDialog(null, "You don\'t have access to Administrator panel!");
+                        }
                     }
                 }
             }

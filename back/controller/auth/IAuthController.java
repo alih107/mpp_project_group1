@@ -9,5 +9,5 @@ public interface IAuthController {
 
     void logout();
 
-    void hasAccess(Role role);
+    boolean hasAccess(Role role);
 }

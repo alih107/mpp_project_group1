@@ -21,8 +21,8 @@ public class AuthController implements IAuthController {
     }
 
     @Override
-    public void hasAccess(Role role) {
-        authService.hasAccess(role);
+    public boolean hasAccess(Role role) {
+        return authService.hasAccess(role);
     }
 
     public static AuthController getInstance() {

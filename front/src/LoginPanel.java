@@ -108,6 +108,8 @@ public class LoginPanel extends JPanel {
         try {
             authController.login(userField.getText(), String.valueOf(passField.getPassword()));
             messageLabel.setText("");
+            userField.setText("");
+            passField.setText("");
             LibraryFrame.loginPanel.setVisible(false);
             LibraryFrame.systemPanel.setVisible(true);
         } catch (AuthenticationException e) {

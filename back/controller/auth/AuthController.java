@@ -1,5 +1,6 @@
 package back.controller.auth;
 
+import back.repo.domain.Role;
 import back.service.auth.AuthService;
 import back.service.auth.AuthenticationException;
 import back.service.auth.IAuthService;
@@ -17,6 +18,11 @@ public class AuthController implements IAuthController {
     @Override
     public void logout() {
         authService.logout();
+    }
+
+    @Override
+    public void hasAccess(Role role) {
+        authService.hasAccess(role);
     }
 
     public static AuthController getInstance() {

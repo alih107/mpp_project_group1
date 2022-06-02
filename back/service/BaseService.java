@@ -1,7 +1,7 @@
 package back.service;
 
-import back.dataaccess.DataAccess;
-import back.dataaccess.DataAccessFacade;
+import back.repo.dataaccess.DataAccess;
+import back.repo.dataaccess.DataAccessFacade;
 
 public class BaseService {
 

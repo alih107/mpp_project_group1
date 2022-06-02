@@ -1,6 +1,6 @@
 package back.service.member;
 
-import back.dataaccess.User;
+import back.repo.dataaccess.User;
 import back.repo.domain.LibraryMember;
 import back.service.BaseService;
 

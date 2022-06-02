@@ -1,4 +1,4 @@
-package back.dataaccess;
+package back.repo.dataaccess;
 
 import java.io.Serializable;
 

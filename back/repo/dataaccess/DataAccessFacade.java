@@ -68,28 +68,31 @@ public class DataAccessFacade implements DataAccess {
     public HashMap<String, Book> readBooksMap() {
         //Returns a Map with name/value pairs being
         //   isbn -> Book
-        return (HashMap<String, Book>) readFromStorage(StorageType.BOOKS);
+        HashMap<String, Book> bookHashMap = (HashMap<String, Book>) readFromStorage(StorageType.BOOKS);
+        return bookHashMap == null ? new HashMap<>() : bookHashMap;
     }
 
     @SuppressWarnings("unchecked")
     public HashMap<String, LibraryMember> readMemberMap() {
         //Returns a Map with name/value pairs being
         //   memberId -> LibraryMember
-        return (HashMap<String, LibraryMember>) readFromStorage(
-                StorageType.MEMBERS);
+        HashMap<String, LibraryMember> memberHashMap = (HashMap<String, LibraryMember>) readFromStorage(StorageType.MEMBERS);
+        return memberHashMap == null ? new HashMap<>() : memberHashMap;
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public HashMap<UUID, CheckoutRecord> readCheckoutRecordMap() {
-        return (HashMap<UUID, CheckoutRecord>) readFromStorage(StorageType.CHECKOUT_RECORDS);
+        HashMap<UUID, CheckoutRecord> recordMap = (HashMap<UUID, CheckoutRecord>) readFromStorage(StorageType.CHECKOUT_RECORDS);
+        return recordMap == null ? new HashMap<>() : recordMap;
     }
 
     @SuppressWarnings("unchecked")
     public HashMap<String, User> readUserMap() {
         //Returns a Map with name/value pairs being
         //   userId -> User
-        return (HashMap<String, User>) readFromStorage(StorageType.USERS);
+        HashMap<String, User> userHashMap = (HashMap<String, User>) readFromStorage(StorageType.USERS);
+        return userHashMap == null ? new HashMap<>() : userHashMap;
     }
 
     /////load methods - these place test data into the storage area

@@ -3,6 +3,7 @@ package back.dataaccess;
 import back.repo.domain.Role;
 
 import java.io.Serializable;
+import java.util.List;
 
 final public class User implements Serializable {
 
@@ -10,12 +11,12 @@ final public class User implements Serializable {
 
     private String id;
     private String password;
-    private Role authorization;
+    private List<Role> authorizations;
 
-    User(String id, String pass, Role auth) {
+    User(String id, String pass, List<Role> authorizations) {
         this.id = id;
         this.password = pass;
-        this.authorization = auth;
+        this.authorizations = authorizations;
     }
 
     public String getId() {
@@ -26,12 +27,12 @@ final public class User implements Serializable {
         return password;
     }
 
-    public Role getAuthorization() {
-        return authorization;
+    public List<Role> getAuthorizations() {
+        return authorizations;
     }
 
     @Override
     public String toString() {
-        return "[" + id + ":" + password + ", " + authorization.toString() + "]";
+        return "[" + id + ":" + password + ", " + authorizations.toString() + "]";
     }
 }

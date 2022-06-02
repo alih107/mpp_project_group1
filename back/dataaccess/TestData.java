@@ -54,7 +54,7 @@ public class TestData {
         libraryMember = new LibraryMember("1002", Collections.singletonList(Role.LIBRARIAN), "Stevens", "702-998-2414", addresses.get(5), "Drew");
         members.add(libraryMember);
 
-        libraryMember = new LibraryMember("1003", Collections.singletonList(Role.LIBRARIAN), "Eagleton", "451-234-8811", addresses.get(6), "Sarah");
+        libraryMember = new LibraryMember("1003", Arrays.asList(Role.ADMIN, Role.LIBRARIAN), "Eagleton", "451-234-8811", addresses.get(6), "Sarah");
         members.add(libraryMember);
 
         libraryMember = new LibraryMember("1004", Collections.singletonList(Role.LIBRARIAN), "Montalbahn", "641-472-2871", addresses.get(7), "Ricardo");
@@ -64,10 +64,10 @@ public class TestData {
     }
 
     ///////////// DATA //////////////
-    List<LibraryMember> members = new ArrayList<LibraryMember>();
+    List<LibraryMember> members = new ArrayList<>();
     @SuppressWarnings("serial")
 
-    List<Address> addresses = new ArrayList<Address>() {
+    List<Address> addresses = new ArrayList<>() {
         {
             add(new Address("101 S. Main", "Fairfield", "IA", "52556"));
             add(new Address("51 S. George", "Georgetown", "MI", "65434"));
@@ -80,7 +80,7 @@ public class TestData {
         }
     };
     @SuppressWarnings("serial")
-    public List<Author> allAuthors = new ArrayList<Author>() {
+    public List<Author> allAuthors = new ArrayList<>() {
         {
             add(new Author("Joe", "Thomas", "641-445-2123", addresses.get(0), "A happy man is he."));
             add(new Author("Sandra", "Thomas", "641-445-2123", addresses.get(0), "A happy wife is she."));
@@ -91,7 +91,7 @@ public class TestData {
     };
 
     @SuppressWarnings("serial")
-    List<Book> allBooks = new ArrayList<Book>() {
+    List<Book> allBooks = new ArrayList<>() {
         {
             add(new Book("23-11451", "The Big Fish", BorrowDaysType.TWENTY_ONE, Arrays.asList(allAuthors.get(0), allAuthors.get(1))));
             add(new Book("28-12331", "Antartica", BorrowDaysType.SEVEN, Collections.singletonList(allAuthors.get(2))));
@@ -101,11 +101,11 @@ public class TestData {
     };
 
     @SuppressWarnings("serial")
-    List<User> allUsers = new ArrayList<User>() {
+    List<User> allUsers = new ArrayList<>() {
         {
-            add(new User("101", "xyz", Role.LIBRARIAN));
-            add(new User("102", "abc", Role.ADMIN));
-            add(new User("103", "111", Role.BOTH));
+            add(new User("1001", "xyz", Collections.singletonList(Role.LIBRARIAN)));
+            add(new User("1002", "abc", Collections.singletonList(Role.ADMIN)));
+            add(new User("1003", "111", Arrays.asList(Role.ADMIN, Role.LIBRARIAN)));
         }
     };
 }

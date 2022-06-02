@@ -24,7 +24,7 @@ public class DataAccessFacade implements DataAccess {
     }
 
     public static final String OUTPUT_DIR = System.getProperty("user.dir")
-                                            + "\\src\\dataaccess\\storage";
+                                            + "/back/repo/storage";
     public static final String DATE_PATTERN = "MM/dd/yyyy";
 
     public static DataAccessFacade getInstance() {
@@ -37,6 +37,21 @@ public class DataAccessFacade implements DataAccess {
         String memberId = member.getMemberId();
         mems.put(memberId, member);
         saveToStorage(StorageType.MEMBERS, mems);
+    }
+
+    @Override
+    public void saveBook(Book book) {
+        HashMap<String, Book> bookMap = readBooksMap();
+        bookMap.put(book.getIsbn(), book);
+        saveToStorage(StorageType.BOOKS, bookMap);
+    }
+
+    @Override
+    public void saveNewUser(LibraryMember member, String password) {
+        HashMap<String, User> userMap = readUserMap();
+        String id = member.getMemberId();
+        userMap.put(id, new User(id, password, member.getRoles()));
+        saveToStorage(StorageType.USERS, userMap);
     }
 
     @SuppressWarnings("unchecked")

@@ -18,6 +18,14 @@ final public class LibraryMember extends Person implements Serializable {
         return memberId;
     }
 
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+
     @Override
     public String toString() {
         return "Member Info: " + "ID: " + memberId + ", name: " + getFirstName() + " " + getLastName() +

@@ -15,6 +15,8 @@ import java.util.List;
 
 public class DataAccessFacade implements DataAccess {
 
+    private static final DataAccessFacade INSTANCE = new DataAccessFacade();
+
     enum StorageType {
         BOOKS,
         MEMBERS,
@@ -24,6 +26,10 @@ public class DataAccessFacade implements DataAccess {
     public static final String OUTPUT_DIR = System.getProperty("user.dir")
                                             + "\\src\\dataaccess\\storage";
     public static final String DATE_PATTERN = "MM/dd/yyyy";
+
+    public static DataAccessFacade getInstance() {
+        return INSTANCE;
+    }
 
     //implement: other save operations
     public void saveNewMember(LibraryMember member) {

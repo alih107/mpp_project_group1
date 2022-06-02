@@ -1,19 +1,22 @@
 package back.service.auth;
 
-import back.dataaccess.DataAccess;
-import back.dataaccess.DataAccessFacade;
 import back.dataaccess.User;
 import back.repo.domain.Role;
+import back.service.BaseService;
 
 import java.util.HashMap;
 
-public class AuthService {
+public class AuthService extends BaseService implements IAuthService {
+
+    private static final AuthService INSTANCE = new AuthService();
 
     public static Role currentAuth = null;
 
-    public static void login(String id, String passwd) throws AuthenticationException {
-        DataAccess da = new DataAccessFacade();
-        HashMap<String, User> map = da.readUserMap();
+    private AuthService() {
+    }
+
+    public void login(String id, String passwd) throws AuthenticationException {
+        HashMap<String, User> map = dataAccess.readUserMap();
         if (!map.containsKey(id)) {
             throw new AuthenticationException("ID " + id + " not found");
         }
@@ -28,5 +31,7 @@ public class AuthService {
         currentAuth = null;
     }
 
-
+    public static AuthService getInstance() {
+        return INSTANCE;
+    }
 }

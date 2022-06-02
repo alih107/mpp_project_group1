@@ -21,7 +21,7 @@ final public class LibraryMember extends Person implements Serializable {
     @Override
     public String toString() {
         return "Member Info: " + "ID: " + memberId + ", name: " + getFirstName() + " " + getLastName() +
-               ", " + getTelephone() + " " + getAddress();
+               ", " + getTelephone() + " " + getAddress() + ", role: " + roles.toString();
     }
 
     private static final long serialVersionUID = -2226197306790714013L;

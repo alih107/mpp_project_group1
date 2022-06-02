@@ -5,14 +5,14 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class SystemPanel extends JPanel {
+public class AuthorizedPanel extends JPanel {
     public static final LibrarianPanel librarianPanel = LibrarianPanel.INSTANCE;
     public static final AdministratorPanel administratorPanel = AdministratorPanel.INSTANCE;
-    public static final SystemPanel INSTANCE = new SystemPanel();
+    public static final AuthorizedPanel INSTANCE = new AuthorizedPanel();
     public static JPanel workingPanel;
     private static JList<String> menuList;
-    SystemPanel() {
-        this.setLayout(new BorderLayout(0, 0));
+    AuthorizedPanel() {
+        this.setLayout(new BorderLayout());
 
         DefaultListModel<String> items = new DefaultListModel<>();
         items.addElement("Librarian");
@@ -64,6 +64,7 @@ public class SystemPanel extends JPanel {
                     case "Librarian" -> {
                         administratorPanel.setVisible(false);
                         librarianPanel.setVisible(true);
+                        CheckoutPanel.memberIDField.requestFocus();
                     }
                     case "Administrator" -> {
                         administratorPanel.setVisible(true);

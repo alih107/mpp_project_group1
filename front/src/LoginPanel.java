@@ -1,5 +1,4 @@
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,9 +12,14 @@ public class LoginPanel extends JPanel {
     private final JLabel messageLabel = new JLabel();
 
     LoginPanel() {
-        this.setBorder(new EmptyBorder(5, 5, 5, 5));
-        this.setLayout(new GridLayout(6, 1, 10, 10));
+        this.setLayout(new GridLayout(17, 1, 10, 10));
 
+        this.add(new JPanel());
+        this.add(new JPanel());
+        this.add(new JPanel());
+        this.add(new JPanel());
+        this.add(new JPanel());
+        this.add(new JPanel());
         this.add(new JPanel());
 
         JPanel usernamePanel = new JPanel();
@@ -42,6 +46,11 @@ public class LoginPanel extends JPanel {
         messagePanel.add(messageLabel);
         this.add(messagePanel);
 
+        this.add(new JPanel());
+        this.add(new JPanel());
+        this.add(new JPanel());
+        this.add(new JPanel());
+        this.add(new JPanel());
         this.add(new JPanel());
 
         this.setVisible(true);
@@ -80,6 +89,7 @@ public class LoginPanel extends JPanel {
     }
 
     void performLogin() {
+        // TODO: connect to back
         messageLabel.setForeground(Color.RED);
         messageLabel.setText(userField.getText() + " " + String.valueOf(passField.getPassword()));
     }

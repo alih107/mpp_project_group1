@@ -1,5 +1,8 @@
 package front.src;
 
+import back.controller.auth.AuthController;
+import back.controller.auth.IAuthController;
+
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -13,6 +16,8 @@ public class AuthorizedPanel extends JPanel {
     public static final AuthorizedPanel INSTANCE = new AuthorizedPanel();
     public static JPanel workingPanel;
     private static JList<String> menuList;
+    private final IAuthController authController = AuthController.getInstance();
+
     AuthorizedPanel() {
         this.setLayout(new BorderLayout());
 
@@ -46,10 +51,11 @@ public class AuthorizedPanel extends JPanel {
         this.setVisible(false);
     }
 
-    private static class LogoutButtonListener implements ActionListener {
+    private class LogoutButtonListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            authController.logout();
             LibraryFrame.loginPanel.setVisible(true);
             LibraryFrame.systemPanel.setVisible(false);
         }

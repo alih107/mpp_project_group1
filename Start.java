@@ -1,9 +1,11 @@
-import javax.swing.*;
+import windows.LibraryFrame;
+
+import javax.swing.SwingUtilities;
 
 public class Start {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            LibraryWindow lw = new LibraryWindow();
+            LibraryFrame lw = new LibraryFrame();
             lw.setVisible(true);
         });
     }

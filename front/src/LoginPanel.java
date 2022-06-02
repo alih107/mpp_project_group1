@@ -1,5 +1,9 @@
 package front.src;
 
+import back.controller.auth.AuthController;
+import back.controller.auth.IAuthController;
+import back.service.auth.AuthenticationException;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,6 +16,8 @@ public class LoginPanel extends JPanel {
     private final JTextField userField = new JTextField(10);
     private final JPasswordField passField = new JPasswordField(10);
     private final JLabel messageLabel = new JLabel();
+    private final JLabel warningLabel = new JLabel();
+    private final IAuthController authController = AuthController.getInstance();
 
     LoginPanel() {
         this.setLayout(new GridLayout(17, 1, 10, 10));
@@ -48,7 +54,11 @@ public class LoginPanel extends JPanel {
         messagePanel.add(messageLabel);
         this.add(messagePanel);
 
-        this.add(new JPanel());
+        JPanel warningPanel = new JPanel();
+        warningPanel.add(warningLabel);
+        warningLabel.setForeground(Color.MAGENTA);
+        this.add(warningPanel);
+
         this.add(new JPanel());
         this.add(new JPanel());
         this.add(new JPanel());
@@ -63,7 +73,6 @@ public class LoginPanel extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             performLogin();
-            messageLabel.setText("Invalid username and/or password");
         }
 
     }
@@ -77,10 +86,14 @@ public class LoginPanel extends JPanel {
 
         @Override
         public void keyPressed(KeyEvent e) {
-            if (e.getKeyCode()==KeyEvent.VK_ENTER){
+            if (e.getKeyCode()==KeyEvent.VK_ENTER) {
                 performLogin();
-                LibraryFrame.loginPanel.setVisible(false);
-                LibraryFrame.systemPanel.setVisible(true);
+            } else if (e.getKeyCode()==KeyEvent.VK_CAPS_LOCK) {
+                if (warningLabel.getText().isBlank()) {
+                    warningLabel.setText("You turned on CAPS LOCK");
+                } else {
+                    warningLabel.setText("");
+                }
             }
         }
 
@@ -91,8 +104,18 @@ public class LoginPanel extends JPanel {
     }
 
     void performLogin() {
-        // TODO: connect to back
-        messageLabel.setForeground(Color.RED);
-        messageLabel.setText(userField.getText() + " " + String.valueOf(passField.getPassword()));
+        try {
+            authController.login(userField.getText(), String.valueOf(passField.getPassword()));
+            messageLabel.setText("");
+            LibraryFrame.loginPanel.setVisible(false);
+            LibraryFrame.systemPanel.setVisible(true);
+        } catch (AuthenticationException e) {
+            if (messageLabel.getForeground() == Color.RED) {
+                messageLabel.setForeground(Color.ORANGE);
+            } else {
+                messageLabel.setForeground(Color.RED);
+            }
+            messageLabel.setText("Invalid username and/or password");
+        }
     }
 }

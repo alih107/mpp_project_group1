@@ -1,6 +1,7 @@
-package back.dataaccess;
+package back.repo.dataaccess;
 
 import back.repo.domain.Book;
+import back.repo.domain.CheckoutRecord;
 import back.repo.domain.LibraryMember;
 
 import java.io.IOException;
@@ -12,6 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 public class DataAccessFacade implements DataAccess {
 
@@ -20,7 +22,8 @@ public class DataAccessFacade implements DataAccess {
     enum StorageType {
         BOOKS,
         MEMBERS,
-        USERS;
+        USERS,
+        CHECKOUT_RECORDS
     }
 
     public static final String OUTPUT_DIR = System.getProperty("user.dir")
@@ -54,6 +57,13 @@ public class DataAccessFacade implements DataAccess {
         saveToStorage(StorageType.USERS, userMap);
     }
 
+    @Override
+    public void addNewCheckoutRecord(CheckoutRecord record) {
+        HashMap<UUID, CheckoutRecord> recordMap = readCheckoutRecordMap();
+        recordMap.put(record.getRecordID(), record);
+        saveToStorage(StorageType.CHECKOUT_RECORDS, recordMap);
+    }
+
     @SuppressWarnings("unchecked")
     public HashMap<String, Book> readBooksMap() {
         //Returns a Map with name/value pairs being
@@ -67,6 +77,12 @@ public class DataAccessFacade implements DataAccess {
         //   memberId -> LibraryMember
         return (HashMap<String, LibraryMember>) readFromStorage(
                 StorageType.MEMBERS);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public HashMap<UUID, CheckoutRecord> readCheckoutRecordMap() {
+        return (HashMap<UUID, CheckoutRecord>) readFromStorage(StorageType.CHECKOUT_RECORDS);
     }
 
     @SuppressWarnings("unchecked")

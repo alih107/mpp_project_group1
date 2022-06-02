@@ -1,4 +1,4 @@
-package back.dataaccess;
+package back.repo.dataaccess;
 
 import back.repo.domain.Address;
 import back.repo.domain.Author;

@@ -1,6 +1,8 @@
 package back.service.auth;
 
-import back.dataaccess.User;
+import back.repo.dataaccess.EntityNotFoundException;
+import back.repo.dataaccess.User;
+import back.repo.domain.LibraryMember;
 import back.repo.domain.Role;
 import back.service.BaseService;
 
@@ -36,8 +38,18 @@ public class AuthService extends BaseService implements IAuthService {
         return INSTANCE;
     }
 
+    @Override
     public boolean hasAccess(Role role) {
         Role exist = currentAuth.stream().filter(t -> t.equals(role)).findAny().orElse(null);
         return exist != null;
+    }
+
+    @Override
+    public LibraryMember findById(String memberId) throws EntityNotFoundException {
+        HashMap<String, LibraryMember> memberMap = dataAccess.readMemberMap();
+        if (!memberMap.containsKey(memberId)) {
+            throw new EntityNotFoundException(String.format("A member with this id: %s not found!", memberId));
+        }
+        return memberMap.get(memberId);
     }
 }

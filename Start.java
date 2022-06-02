@@ -1,5 +1,3 @@
-import windows.LibraryFrame;
-
 import javax.swing.SwingUtilities;
 
 public class Start {

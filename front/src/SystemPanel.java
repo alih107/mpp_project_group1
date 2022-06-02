@@ -1,5 +1,3 @@
-package windows;
-
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -8,8 +6,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class SystemPanel extends JPanel {
+    public static final LibrarianPanel librarianPanel = LibrarianPanel.INSTANCE;
+    public static final AdministratorPanel administratorPanel = AdministratorPanel.INSTANCE;
     public static final SystemPanel INSTANCE = new SystemPanel();
-    private static JLabel workingLabel;
+    public static JPanel workingPanel;
     private static JList<String> menuList;
     SystemPanel() {
         this.setLayout(new BorderLayout(0, 0));
@@ -23,9 +23,10 @@ public class SystemPanel extends JPanel {
         menuList.addListSelectionListener(new MenuListListener());
         this.add(menuList, BorderLayout.WEST);
 
-        JPanel workingPanel = new JPanel();
-        workingLabel = new JLabel();
-        workingPanel.add(workingLabel);
+        workingPanel = new JPanel(new CardLayout());
+        workingPanel.add(administratorPanel);
+        workingPanel.add(librarianPanel);
+        workingPanel.setVisible(false);
         this.add(workingPanel, BorderLayout.CENTER);
 
         JPanel logoutPanel = new JPanel();
@@ -57,7 +58,18 @@ public class SystemPanel extends JPanel {
         @Override
         public void valueChanged(ListSelectionEvent e) {
             if (!e.getValueIsAdjusting()) {
-                workingLabel.setText(menuList.getSelectedValue());
+                workingPanel.setVisible(true);
+                String menuChoice = menuList.getSelectedValue();
+                switch (menuChoice) {
+                    case "Librarian" -> {
+                        administratorPanel.setVisible(false);
+                        librarianPanel.setVisible(true);
+                    }
+                    case "Administrator" -> {
+                        administratorPanel.setVisible(true);
+                        librarianPanel.setVisible(false);
+                    }
+                }
             }
         }
     }

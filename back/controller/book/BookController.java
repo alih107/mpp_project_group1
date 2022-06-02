@@ -4,6 +4,7 @@ import back.dataaccess.EntityNotFoundException;
 
 public class BookController implements IBookController {
 
+    private static final BookController INSTANCE = new BookController();
     @Override
     public void addNewBook() {
 
@@ -14,4 +15,7 @@ public class BookController implements IBookController {
 
     }
 
+    public static BookController getInstance() {
+        return INSTANCE;
+    }
 }

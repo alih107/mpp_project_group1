@@ -6,6 +6,7 @@ import back.service.auth.IAuthService;
 
 public class AuthController implements IAuthController {
 
+    private static final AuthController INSTANCE = new AuthController();
     private final IAuthService authService = AuthService.getInstance();
 
     @Override
@@ -16,5 +17,9 @@ public class AuthController implements IAuthController {
     @Override
     public void logout() {
         authService.logout();
+    }
+
+    public static AuthController getInstance() {
+        return INSTANCE;
     }
 }

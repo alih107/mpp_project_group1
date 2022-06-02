@@ -3,13 +3,12 @@ package back.service.book;
 import back.dataaccess.EntityNotFoundException;
 import back.repo.domain.Book;
 import back.service.BaseService;
-import back.service.member.MemberService;
 
 import java.util.HashMap;
 
 public class BookService extends BaseService implements IBookService {
 
-    private static final MemberService INSTANCE = new MemberService();
+    private static final BookService INSTANCE = new BookService();
 
     @Override
     public void addNewBook() {
@@ -30,7 +29,7 @@ public class BookService extends BaseService implements IBookService {
         dataAccess.saveBook(book);
     }
 
-    public static MemberService getInstance() {
+    public static BookService getInstance() {
         return INSTANCE;
     }
 }

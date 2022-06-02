@@ -1,5 +1,9 @@
 package front.src;
 
+import back.controller.book.BookController;
+import back.controller.book.IBookController;
+import back.repo.dataaccess.EntityNotFoundException;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -10,6 +14,7 @@ import java.awt.event.KeyListener;
 public class AddBookCopyPanel extends JPanel {
     public static JTextField isbnField = new JTextField(10);
     public static final AddBookCopyPanel INSTANCE = new AddBookCopyPanel();
+    private final IBookController bookController = BookController.getInstance();
 
     AddBookCopyPanel() {
         setLayout(new BorderLayout());
@@ -56,7 +61,18 @@ public class AddBookCopyPanel extends JPanel {
     }
 
     private void performAddBookCopy() {
-        // TODO: connect to back
-        JOptionPane.showMessageDialog(null, "Book copy added!");
+        String isbnText = isbnField.getText();
+        try {
+            bookController.addCopy(isbnText);
+        } catch (EntityNotFoundException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+            return;
+        }
+        if (isbnText.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "ISBN cannot empty!");
+            return;
+        }
+        JOptionPane.showMessageDialog(null, "Book copy added");
+        isbnField.setText("");
     }
 }

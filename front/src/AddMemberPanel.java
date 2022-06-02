@@ -30,7 +30,6 @@ public class AddMemberPanel extends JPanel {
     public static final AddMemberPanel INSTANCE = new AddMemberPanel();
     private final IMemberController memberController = MemberController.getInstance();
 
-
     AddMemberPanel() {
         this.setLayout(new GridLayout(16, 1, 10, 10));
 

@@ -1,5 +1,10 @@
 package front.src;
 
+import back.controller.book.BookController;
+import back.controller.book.IBookController;
+import back.repo.dataaccess.EntityNotFoundException;
+import back.service.book.BookNotAvailableException;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -11,6 +16,7 @@ public class CheckoutPanel extends JPanel {
     public static JTextField memberIDField = new JTextField(10);
     public static JTextField isbnField = new JTextField(10);
     public static final CheckoutPanel INSTANCE = new CheckoutPanel();
+    private final IBookController bookController = BookController.getInstance();
 
     CheckoutPanel() {
         setLayout(new BorderLayout());
@@ -37,7 +43,7 @@ public class CheckoutPanel extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            performSearch();
+            performCheckout();
         }
     }
 
@@ -51,7 +57,7 @@ public class CheckoutPanel extends JPanel {
         @Override
         public void keyPressed(KeyEvent e) {
             if (e.getKeyCode()==KeyEvent.VK_ENTER){
-                performSearch();
+                performCheckout();
             }
         }
 
@@ -61,8 +67,23 @@ public class CheckoutPanel extends JPanel {
         }
     }
 
-    private void performSearch() {
-        // TODO: connect to back
-        JOptionPane.showMessageDialog(null, "Search is being performed...");
+    private void performCheckout() {
+        String memberIDText = memberIDField.getText();
+        String isbnText = isbnField.getText();
+        if (memberIDText.isBlank()) {
+            JOptionPane.showMessageDialog(null, "Member ID cannot be empty");
+            return;
+        }
+        if (isbnText.isBlank()) {
+            JOptionPane.showMessageDialog(null, "ISBN cannot be empty");
+            return;
+        }
+        try {
+            bookController.checkout(memberIDText, isbnText);
+        } catch (EntityNotFoundException | BookNotAvailableException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+            return;
+        }
+        JOptionPane.showMessageDialog(null, "Book is checked out");
     }
 }

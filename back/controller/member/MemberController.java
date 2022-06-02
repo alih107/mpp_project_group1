@@ -7,6 +7,7 @@ import back.service.member.MemberService;
 
 public class MemberController implements IMemberController {
 
+    private static final MemberController INSTANCE = new MemberController();
     private final IMemberService memberService;
 
     public MemberController() {
@@ -16,5 +17,9 @@ public class MemberController implements IMemberController {
     @Override
     public void createNewMember(LibraryMember member, String password) throws MemberExistException {
         memberService.createMember(member, password);
+    }
+
+    public static MemberController getInstance() {
+        return INSTANCE;
     }
 }

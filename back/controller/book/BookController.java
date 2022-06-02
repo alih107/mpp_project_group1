@@ -7,7 +7,11 @@ import back.service.book.IBookService;
 public class BookController implements IBookController {
 
     private static final BookController INSTANCE = new BookController();
-    private final IBookService bookService = BookService.getInstance();
+    private final IBookService bookService;
+
+    public BookController() {
+        bookService = BookService.getInstance();
+    }
 
     @Override
     public void addNewBook() {

@@ -35,4 +35,9 @@ public class AuthService extends BaseService implements IAuthService {
     public static AuthService getInstance() {
         return INSTANCE;
     }
+
+    public boolean hasAccess(Role role) {
+        Role exist = currentAuth.stream().filter(t -> t.equals(role)).findAny().orElse(null);
+        return exist != null;
+    }
 }

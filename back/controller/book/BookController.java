@@ -1,9 +1,12 @@
 package back.controller.book;
 
 import back.repo.dataaccess.EntityNotFoundException;
+import back.service.auth.AuthenticationException;
 import back.service.book.BookNotAvailableException;
 import back.service.book.BookService;
 import back.service.book.IBookService;
+
+import java.nio.file.AccessDeniedException;
 
 public class BookController implements IBookController {
 
@@ -25,7 +28,7 @@ public class BookController implements IBookController {
     }
 
     @Override
-    public void checkout(String memberId, String isbn) throws EntityNotFoundException, BookNotAvailableException {
+    public void checkout(String memberId, String isbn) throws EntityNotFoundException, BookNotAvailableException, AccessDeniedException, AuthenticationException {
         bookService.checkout(memberId, isbn);
     }
 

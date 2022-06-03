@@ -10,5 +10,7 @@ public interface IAuthService {
 
     boolean hasAccess(Role role) throws AuthenticationException;
 
+    boolean hasAccess(String memberId, Role role) throws AuthenticationException;
+
     String getAuthorizedMemberId() throws AuthenticationException;
 }

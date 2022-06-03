@@ -38,7 +38,19 @@ public class AuthService extends BaseService implements IAuthService {
     @Override
     public boolean hasAccess(Role role) throws AuthenticationException {
         checkSession();
-        Role exist = currentAuth.getAuthorizations().stream().filter(t -> t.equals(role)).findAny().orElse(null);
+        return hasAccess(currentAuth, role);
+    }
+
+    @Override
+    public boolean hasAccess(String memberId, Role role) throws AuthenticationException {
+        checkSession();
+        HashMap<String, User> userMap = dataAccess.readUserMap();
+        return hasAccess(userMap.get(memberId), role);
+    }
+
+    private boolean hasAccess(User user, Role role) {
+        if (user == null) { return false; }
+        Role exist = user.getAuthorizations().stream().filter(t -> t.equals(role)).findAny().orElse(null);
         return exist != null;
     }
 

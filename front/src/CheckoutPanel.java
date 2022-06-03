@@ -3,6 +3,7 @@ package front.src;
 import back.controller.book.BookController;
 import back.controller.book.IBookController;
 import back.repo.dataaccess.EntityNotFoundException;
+import back.service.auth.AuthenticationException;
 import back.service.book.BookNotAvailableException;
 
 import javax.swing.*;
@@ -11,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.nio.file.AccessDeniedException;
 
 public class CheckoutPanel extends JPanel {
     public static JTextField memberIDField = new JTextField(10);
@@ -80,7 +82,7 @@ public class CheckoutPanel extends JPanel {
         }
         try {
             bookController.checkout(memberIDText, isbnText);
-        } catch (EntityNotFoundException | BookNotAvailableException e) {
+        } catch (EntityNotFoundException | BookNotAvailableException | AccessDeniedException | AuthenticationException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
             return;
         }

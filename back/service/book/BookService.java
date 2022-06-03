@@ -5,10 +5,15 @@ import back.repo.domain.Book;
 import back.repo.domain.BookCopy;
 import back.repo.domain.CheckoutRecord;
 import back.repo.domain.LibraryMember;
+import back.repo.domain.Role;
 import back.service.BaseService;
+import back.service.auth.AuthService;
+import back.service.auth.AuthenticationException;
+import back.service.auth.IAuthService;
 import back.service.member.IMemberService;
 import back.service.member.MemberService;
 
+import java.nio.file.AccessDeniedException;
 import java.time.LocalDate;
 import java.util.HashMap;
 
@@ -16,9 +21,11 @@ public class BookService extends BaseService implements IBookService {
 
     private static final BookService INSTANCE = new BookService();
     private final IMemberService memberService;
+    private final IAuthService authService;
 
     public BookService() {
         memberService = MemberService.getInstance();
+        authService = AuthService.getInstance();
     }
 
     @Override
@@ -35,8 +42,14 @@ public class BookService extends BaseService implements IBookService {
     }
 
     @Override
-    public void checkout(String memberId, String isbn) throws EntityNotFoundException, BookNotAvailableException {
+    public void checkout(String memberId, String isbn) throws EntityNotFoundException, BookNotAvailableException, AuthenticationException,
+            AccessDeniedException {
         LibraryMember member = memberService.findById(memberId);
+
+        if (!authService.hasAccess(member.getMemberId(), Role.LIBRARIAN)) {
+            throw new AccessDeniedException(String.format("Member id: %s has no access to checkout", member.getMemberId()));
+        }
+
         Book book = findBook(isbn);
         BookCopy bookCopy = book.getNextAvailableCopy();
 

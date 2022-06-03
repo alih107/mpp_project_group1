@@ -1,13 +1,18 @@
 package front.src;
 
-import back.controller.book.BookController;
-import back.controller.book.IBookController;
+import back.controller.book.CheckoutController;
+import back.controller.book.ICheckoutController;
 import back.repo.dataaccess.EntityNotFoundException;
 import back.service.auth.AuthenticationException;
 import back.service.book.BookNotAvailableException;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -18,7 +23,7 @@ public class CheckoutPanel extends JPanel {
     public static JTextField memberIDField = new JTextField(10);
     public static JTextField isbnField = new JTextField(10);
     public static final CheckoutPanel INSTANCE = new CheckoutPanel();
-    private final IBookController bookController = BookController.getInstance();
+    private final ICheckoutController checkoutController = CheckoutController.getInstance();
 
     CheckoutPanel() {
         setLayout(new BorderLayout());
@@ -81,7 +86,7 @@ public class CheckoutPanel extends JPanel {
             return;
         }
         try {
-            bookController.checkout(memberIDText, isbnText);
+            checkoutController.checkout(memberIDText, isbnText);
         } catch (EntityNotFoundException | BookNotAvailableException | AccessDeniedException | AuthenticationException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
             return;

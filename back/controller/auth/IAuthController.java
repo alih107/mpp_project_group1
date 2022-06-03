@@ -9,5 +9,5 @@ public interface IAuthController {
 
     void logout();
 
-    boolean hasAccess(Role role);
+    boolean hasAccess(Role role) throws AuthenticationException;
 }

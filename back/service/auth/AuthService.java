@@ -5,13 +5,12 @@ import back.repo.domain.Role;
 import back.service.BaseService;
 
 import java.util.HashMap;
-import java.util.List;
 
 public class AuthService extends BaseService implements IAuthService {
 
     private static final AuthService INSTANCE = new AuthService();
 
-    public static List<Role> currentAuth = null;
+    private static User currentAuth = null;
 
     private AuthService() {
     }
@@ -25,7 +24,7 @@ public class AuthService extends BaseService implements IAuthService {
         if (!passwordFound.equals(passwd)) {
             throw new AuthenticationException("Password incorrect");
         }
-        currentAuth = map.get(id).getAuthorizations();
+        currentAuth = map.get(id);
     }
 
     public void logout() {
@@ -37,8 +36,21 @@ public class AuthService extends BaseService implements IAuthService {
     }
 
     @Override
-    public boolean hasAccess(Role role) {
-        Role exist = currentAuth.stream().filter(t -> t.equals(role)).findAny().orElse(null);
+    public boolean hasAccess(Role role) throws AuthenticationException {
+        checkSession();
+        Role exist = currentAuth.getAuthorizations().stream().filter(t -> t.equals(role)).findAny().orElse(null);
         return exist != null;
+    }
+
+    @Override
+    public String getAuthorizedMemberId() throws AuthenticationException {
+        checkSession();
+        return currentAuth.getId();
+    }
+
+    private void checkSession() throws AuthenticationException {
+        if (currentAuth == null) {
+            throw new AuthenticationException("No active sessions found!");
+        }
     }
 }

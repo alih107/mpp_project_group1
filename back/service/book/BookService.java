@@ -2,6 +2,7 @@ package back.service.book;
 
 import back.repo.dataaccess.EntityNotFoundException;
 import back.repo.domain.Book;
+import back.repo.domain.BookCopy;
 import back.repo.domain.CheckoutRecord;
 import back.repo.domain.LibraryMember;
 import back.service.BaseService;
@@ -37,15 +38,19 @@ public class BookService extends BaseService implements IBookService {
     public void checkout(String memberId, String isbn) throws EntityNotFoundException, BookNotAvailableException {
         LibraryMember member = memberService.findById(memberId);
         Book book = findBook(isbn);
+        BookCopy bookCopy = book.getNextAvailableCopy();
 
-        if (book.getNextAvailableCopy() == null) {
+        if (bookCopy == null) {
             throw new BookNotAvailableException();
         }
 
         LocalDate now = LocalDate.now();
         LocalDate dueDate = LocalDate.now().plusDays(book.getMaxCheckoutLength());
 
-        dataAccess.addNewCheckoutRecord(CheckoutRecord.createCheckoutRecord(member, book.getNextAvailableCopy(), now, dueDate));
+        dataAccess.addNewCheckoutRecord(CheckoutRecord.createCheckoutRecord(member, bookCopy, now, dueDate));
+
+        bookCopy.changeAvailability();
+        dataAccess.saveBook(book);
     }
 
     @Override

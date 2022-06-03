@@ -8,5 +8,7 @@ public interface IAuthService {
 
     void logout();
 
-    boolean hasAccess(Role role);
+    boolean hasAccess(Role role) throws AuthenticationException;
+
+    String getAuthorizedMemberId() throws AuthenticationException;
 }

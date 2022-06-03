@@ -21,7 +21,7 @@ public class AuthController implements IAuthController {
     }
 
     @Override
-    public boolean hasAccess(Role role) {
+    public boolean hasAccess(Role role) throws AuthenticationException {
         return authService.hasAccess(role);
     }
 

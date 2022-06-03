@@ -4,6 +4,7 @@ import back.repo.dataaccess.EntityNotFoundException;
 import back.repo.domain.CheckoutRecord;
 import back.service.auth.AuthenticationException;
 import back.service.book.BookNotAvailableException;
+import back.service.book.CheckoutSearchFilter;
 import back.service.book.CheckoutService;
 import back.service.book.ICheckoutService;
 
@@ -28,8 +29,8 @@ public class CheckoutController implements ICheckoutController {
     }
 
     @Override
-    public List<CheckoutRecord> searchCheckouts(String memberId) throws AuthenticationException {
-        return checkoutService.searchCheckouts(memberId);
+    public List<CheckoutRecord> searchCheckouts(CheckoutSearchFilter filter) throws AuthenticationException, AccessDeniedException {
+        return checkoutService.searchCheckouts(filter);
     }
 
     public static CheckoutController getInstance() {

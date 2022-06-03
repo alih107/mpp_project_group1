@@ -11,5 +11,5 @@ public interface ICheckoutService {
 
     void checkout(String memberId, String isbn) throws EntityNotFoundException, BookNotAvailableException, AuthenticationException, AccessDeniedException;
 
-    List<CheckoutRecord> searchCheckouts(String memberId) throws AuthenticationException;
+    List<CheckoutRecord> searchCheckouts(CheckoutSearchFilter filter) throws AuthenticationException, AccessDeniedException;
 }

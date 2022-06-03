@@ -62,8 +62,30 @@ public class CheckoutService extends BaseService implements ICheckoutService {
     }
 
     @Override
-    public List<CheckoutRecord> searchCheckouts(String memberId) throws AuthenticationException {
+    public List<CheckoutRecord> searchCheckouts(CheckoutSearchFilter filter) throws AuthenticationException, AccessDeniedException {
+        if (filter.getSearchType() == CheckoutSearchFilter.CheckoutSearchType.BY_MEMBER) {
+            return searchCheckoutsByMember(filter.getMemberId());
+        } else {
+            return searchCheckoutsByIsbn(filter.getIsbn());
+        }
+    }
 
+    private List<CheckoutRecord> searchCheckoutsByIsbn(String isbn) throws AccessDeniedException, AuthenticationException {
+        if (!authService.hasAccess(Role.ADMIN)) {
+            throw new AccessDeniedException("You have no access to this functionality!");
+        }
+
+        HashMap<UUID, CheckoutRecord> checkoutMap = dataAccess.readCheckoutRecordMap();
+
+        if (checkoutMap.values().isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        return checkoutMap.values().stream()
+                .filter(t -> t.getBookCopy().getBook().getIsbn().equals(isbn)).collect(Collectors.toList());
+    }
+
+    private List<CheckoutRecord> searchCheckoutsByMember(String memberId) throws AuthenticationException {
         if (!authService.hasAccess(Role.ADMIN)) {
             memberId = authService.getAuthorizedMemberId();
         }

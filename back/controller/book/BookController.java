@@ -41,7 +41,7 @@ public class BookController implements IBookController {
     }
 
     @Override
-    public void createBook(String isbn, String title, BorrowDaysType borrowDaysType, List<Author> authors, int copies) {
+    public void createBook(String isbn, String title, BorrowDaysType borrowDaysType, List<Author> authors, int copies) throws AuthenticationException {
         bookService.createBook(isbn, title, borrowDaysType, authors, copies);
     }
 

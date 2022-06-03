@@ -19,5 +19,5 @@ public interface IBookController {
 
     List<Author> getAuthors();
 
-    void createBook(String isbn, String title, BorrowDaysType borrowDaysType, List<Author> authors, int copies);
+    void createBook(String isbn, String title, BorrowDaysType borrowDaysType, List<Author> authors, int copies) throws AuthenticationException;
 }

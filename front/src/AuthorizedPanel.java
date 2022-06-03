@@ -3,6 +3,7 @@ package front.src;
 import back.controller.auth.AuthController;
 import back.controller.auth.IAuthController;
 import back.repo.domain.Role;
+import back.service.auth.AuthenticationException;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -29,6 +30,7 @@ public class AuthorizedPanel extends JPanel {
         menuList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
         menuList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         menuList.addListSelectionListener(new MenuListListener());
+        menuList.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
         this.add(menuList, BorderLayout.WEST);
 
         workingPanel = new JPanel(new CardLayout());
@@ -70,27 +72,40 @@ public class AuthorizedPanel extends JPanel {
         @Override
         public void valueChanged(ListSelectionEvent e) {
             if (!e.getValueIsAdjusting()) {
-                workingPanel.setVisible(true);
                 String menuChoice = menuList.getSelectedValue();
                 switch (menuChoice) {
                     case "Librarian" -> {
-                        if (authController.hasAccess(Role.LIBRARIAN)) {
-                            administratorPanel.setVisible(false);
-                            librarianPanel.setVisible(true);
-                            CheckoutPanel.memberIDField.requestFocus();
-                        } else {
-                            JOptionPane.showMessageDialog(null, "You don\'t have access to Librarian panel!");
+                        try {
+                            if (authController.hasAccess(Role.LIBRARIAN)) {
+                                administratorPanel.setVisible(false);
+                                librarianPanel.setVisible(true);
+                                CheckoutPanel.memberIDField.requestFocus();
+                            } else {
+                                JOptionPane.showMessageDialog(null, "You don\'t have access to Librarian panel!");
+                                return;
+                            }
+                        } catch (AuthenticationException ex) {
+                            JOptionPane.showMessageDialog(null, ex.getMessage());
+                            return;
                         }
+
                     }
                     case "Administrator" -> {
-                        if (authController.hasAccess(Role.ADMIN)) {
-                            administratorPanel.setVisible(true);
-                            librarianPanel.setVisible(false);
-                        } else {
-                            JOptionPane.showMessageDialog(null, "You don\'t have access to Administrator panel!");
+                        try {
+                            if (authController.hasAccess(Role.ADMIN)) {
+                                administratorPanel.setVisible(true);
+                                librarianPanel.setVisible(false);
+                            } else {
+                                JOptionPane.showMessageDialog(null, "You don\'t have access to Administrator panel!");
+                                return;
+                            }
+                        } catch (AuthenticationException ex) {
+                            JOptionPane.showMessageDialog(null, ex.getMessage());
+                            return;
                         }
                     }
                 }
+                workingPanel.setVisible(true);
             }
         }
     }

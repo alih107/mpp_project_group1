@@ -24,7 +24,7 @@ public class AddBookCopyPanel extends JPanel {
         searchPanel.add(isbnField);
         isbnField.addKeyListener(new TextFieldListener());
 
-        JButton addButton = new JButton("Add copy");
+        JButton addButton = new JButton("Add book copy");
         addButton.addActionListener(new AddButtonListener());
         searchPanel.add(addButton);
 
@@ -62,14 +62,14 @@ public class AddBookCopyPanel extends JPanel {
 
     private void performAddBookCopy() {
         String isbnText = isbnField.getText();
+        if (isbnText.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "ISBN cannot empty!");
+            return;
+        }
         try {
             bookController.addCopy(isbnText);
         } catch (EntityNotFoundException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
-            return;
-        }
-        if (isbnText.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "ISBN cannot empty!");
             return;
         }
         JOptionPane.showMessageDialog(null, "Book copy added");

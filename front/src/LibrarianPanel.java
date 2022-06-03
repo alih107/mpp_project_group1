@@ -9,6 +9,7 @@ public class LibrarianPanel extends JPanel {
 
     LibrarianPanel() {
         this.setLayout(new BorderLayout());
+        this.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
 
         DefaultListModel<String> items = new DefaultListModel<>();
         items.addElement("Checkout a book");

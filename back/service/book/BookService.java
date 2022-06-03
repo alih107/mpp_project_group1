@@ -1,8 +1,11 @@
 package back.service.book;
 
 import back.repo.dataaccess.EntityNotFoundException;
+import back.repo.dataaccess.TestData;
+import back.repo.domain.Author;
 import back.repo.domain.Book;
 import back.repo.domain.BookCopy;
+import back.repo.domain.BorrowDaysType;
 import back.repo.domain.CheckoutRecord;
 import back.repo.domain.LibraryMember;
 import back.repo.domain.Role;
@@ -16,6 +19,7 @@ import back.service.member.MemberService;
 import java.nio.file.AccessDeniedException;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 
 public class BookService extends BaseService implements IBookService {
 
@@ -66,13 +70,22 @@ public class BookService extends BaseService implements IBookService {
         dataAccess.saveBook(book);
     }
 
-    @Override
     public Book findBook(String isbn) throws EntityNotFoundException {
         HashMap<String, Book> booksMap = dataAccess.readBooksMap();
         if (!booksMap.containsKey(isbn)) {
             throw new EntityNotFoundException(String.format("A book with this isbn: %s not found!", isbn));
         }
         return booksMap.get(isbn);
+    }
+
+    @Override
+    public List<Author> getAuthors() {
+        return new TestData().allAuthors;
+    }
+
+    @Override
+    public void createBook(String isbn, String title, BorrowDaysType borrowDaysType, List<Author> authors, int copies) {
+
     }
 
     public static BookService getInstance() {

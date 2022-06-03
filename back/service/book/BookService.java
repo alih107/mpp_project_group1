@@ -86,6 +86,13 @@ public class BookService extends BaseService implements IBookService {
     @Override
     public void createBook(String isbn, String title, BorrowDaysType borrowDaysType, List<Author> authors, int copies) throws AuthenticationException {
         authService.hasAccess(Role.ADMIN);
+
+        Book book = new Book(isbn, title, borrowDaysType, authors);
+        for (int i = 0; i < copies - 1; i++) {
+            book.addCopy();
+        }
+
+        dataAccess.saveBook(book);
     }
 
     public static BookService getInstance() {

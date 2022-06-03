@@ -4,6 +4,7 @@ import back.controller.book.BookController;
 import back.controller.book.IBookController;
 import back.repo.domain.Author;
 import back.repo.domain.BorrowDaysType;
+import back.service.EntityExistException;
 import back.service.auth.AuthenticationException;
 
 import javax.swing.*;
@@ -129,7 +130,7 @@ public class AddBookPanel extends JPanel {
 
         try {
             bookController.createBook(isbnText, titleText, bdt, selectedAuthors, numOfCopies);
-        } catch (AuthenticationException e) {
+        } catch (AuthenticationException | EntityExistException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
             return;
         }

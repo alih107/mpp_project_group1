@@ -3,6 +3,7 @@ package back.controller.book;
 import back.repo.dataaccess.EntityNotFoundException;
 import back.repo.domain.Author;
 import back.repo.domain.BorrowDaysType;
+import back.service.EntityExistException;
 import back.service.auth.AuthenticationException;
 import back.service.book.BookService;
 import back.service.book.IBookService;
@@ -19,11 +20,6 @@ public class BookController implements IBookController {
     }
 
     @Override
-    public void addNewBook() {
-
-    }
-
-    @Override
     public void addCopy(String isbn) throws EntityNotFoundException {
         bookService.addBookCopy(isbn);
     }
@@ -34,7 +30,7 @@ public class BookController implements IBookController {
     }
 
     @Override
-    public void createBook(String isbn, String title, BorrowDaysType borrowDaysType, List<Author> authors, int copies) throws AuthenticationException {
+    public void createBook(String isbn, String title, BorrowDaysType borrowDaysType, List<Author> authors, int copies) throws AuthenticationException, EntityExistException {
         bookService.createBook(isbn, title, borrowDaysType, authors, copies);
     }
 

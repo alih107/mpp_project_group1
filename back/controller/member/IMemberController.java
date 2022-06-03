@@ -1,9 +1,9 @@
 package back.controller.member;
 
 import back.repo.domain.LibraryMember;
-import back.service.member.MemberExistException;
+import back.service.EntityExistException;
 
 public interface IMemberController {
 
-    void createNewMember(LibraryMember member, String password) throws MemberExistException;
+    void createNewMember(LibraryMember member, String password) throws EntityExistException;
 }

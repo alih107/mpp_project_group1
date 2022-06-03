@@ -7,6 +7,7 @@ import back.repo.domain.Book;
 import back.repo.domain.BorrowDaysType;
 import back.repo.domain.Role;
 import back.service.BaseService;
+import back.service.EntityExistException;
 import back.service.auth.AuthService;
 import back.service.auth.AuthenticationException;
 import back.service.auth.IAuthService;
@@ -25,11 +26,6 @@ public class BookService extends BaseService implements IBookService {
     public BookService() {
         memberService = MemberService.getInstance();
         authService = AuthService.getInstance();
-    }
-
-    @Override
-    public void addNewBook() {
-
     }
 
     @Override
@@ -55,8 +51,18 @@ public class BookService extends BaseService implements IBookService {
     }
 
     @Override
-    public void createBook(String isbn, String title, BorrowDaysType borrowDaysType, List<Author> authors, int copies) throws AuthenticationException {
+    public void createBook(
+            String isbn, String title, BorrowDaysType borrowDaysType, List<Author> authors, int copies
+    ) throws AuthenticationException, EntityExistException {
         authService.hasAccess(Role.ADMIN);
+
+        try {
+            if (findBook(isbn) != null) {
+                throw new EntityExistException(String.format("Book with this isbn: %s is already exist!", isbn));
+            }
+        } catch (EntityNotFoundException ignore) {
+            //we allow to create a new book if there is no such book with the same isbn
+        }
 
         Book book = new Book(isbn, title, borrowDaysType, authors);
         for (int i = 0; i < copies - 1; i++) {

@@ -4,6 +4,7 @@ import back.repo.dataaccess.EntityNotFoundException;
 import back.repo.dataaccess.User;
 import back.repo.domain.LibraryMember;
 import back.service.BaseService;
+import back.service.EntityExistException;
 
 import java.util.HashMap;
 
@@ -12,13 +13,13 @@ public class MemberService extends BaseService implements IMemberService {
     private static final MemberService INSTANCE = new MemberService();
 
     @Override
-    public void createMember(LibraryMember member, String password) throws MemberExistException {
+    public void createMember(LibraryMember member, String password) throws EntityExistException {
 
         HashMap<String, LibraryMember> memberMap = dataAccess.readMemberMap();
         HashMap<String, User> userMap = dataAccess.readUserMap();
 
         if (memberMap.containsKey(member.getMemberId()) || userMap.containsKey(member.getMemberId())) {
-            throw new MemberExistException(String.format("Member with this memberId: %s already exist!", member.getMemberId()));
+            throw new EntityExistException(String.format("Member with this memberId: %s is already exist!", member.getMemberId()));
         }
 
 

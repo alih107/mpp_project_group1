@@ -2,7 +2,7 @@ package back.controller.member;
 
 import back.repo.domain.LibraryMember;
 import back.service.member.IMemberService;
-import back.service.member.MemberExistException;
+import back.service.EntityExistException;
 import back.service.member.MemberService;
 
 public class MemberController implements IMemberController {
@@ -15,7 +15,7 @@ public class MemberController implements IMemberController {
     }
 
     @Override
-    public void createNewMember(LibraryMember member, String password) throws MemberExistException {
+    public void createNewMember(LibraryMember member, String password) throws EntityExistException {
         memberService.createMember(member, password);
     }
 

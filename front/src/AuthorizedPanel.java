@@ -58,6 +58,7 @@ public class AuthorizedPanel extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            menuList.clearSelection();
             workingPanel.setVisible(false);
             librarianPanel.setVisible(false);
             administratorPanel.setVisible(false);
@@ -73,6 +74,9 @@ public class AuthorizedPanel extends JPanel {
         public void valueChanged(ListSelectionEvent e) {
             if (!e.getValueIsAdjusting()) {
                 String menuChoice = menuList.getSelectedValue();
+                if (menuChoice == null) {
+                    return;
+                }
                 switch (menuChoice) {
                     case "Librarian" -> {
                         try {

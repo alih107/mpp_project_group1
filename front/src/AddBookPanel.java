@@ -12,13 +12,16 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class AddBookPanel extends JPanel {
-    public static JTextField isbnField = new JTextField(10);
-    public static JTextField titleField = new JTextField(10);
+    private static final int FIELD_LENGTH = 10;
+    public static JTextField isbnField = new JTextField(FIELD_LENGTH);
+    public static JTextField titleField = new JTextField(FIELD_LENGTH);
+
+    public static JTextField numOfCopiesField = new JTextField(3);
     public static final AddBookPanel INSTANCE = new AddBookPanel();
     private final IBookController bookController = BookController.getInstance();
 
     AddBookPanel() {
-        this.setLayout(new GridLayout(19, 1, 10, 10));
+        this.setLayout(new GridLayout(9, 1, 10, 10));
 
         this.add(new JPanel());
         this.add(new JPanel());
@@ -34,13 +37,17 @@ public class AddBookPanel extends JPanel {
         titlePanel.add(titleField);
         this.add(titlePanel);
 
+        JPanel numOfCopiesPanel = new JPanel();
+        numOfCopiesPanel.add(new JLabel("Number of copies"));
+        numOfCopiesPanel.add(numOfCopiesField);
+        this.add(numOfCopiesPanel);
+
         JPanel addPanel = new JPanel();
         JButton addButton = new JButton("Add book");
         addButton.addActionListener(new AddButtonListener());
         addPanel.add(addButton);
         this.add(addPanel);
 
-        this.add(new JPanel());
         this.add(new JPanel());
         this.add(new JPanel());
 

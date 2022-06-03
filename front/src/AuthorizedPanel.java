@@ -79,18 +79,21 @@ public class AuthorizedPanel extends JPanel {
                 }
                 switch (menuChoice) {
                     case "Librarian" -> {
+                        administratorPanel.setVisible(false);
+                        librarianPanel.setVisible(true);
+
                         try {
-                            if (authController.hasAccess(Role.LIBRARIAN)) {
-                                administratorPanel.setVisible(false);
-                                librarianPanel.setVisible(true);
-                                CheckoutPanel.memberIDField.requestFocus();
+                            if (!authController.hasAccess(Role.ADMIN)) {
+                                CheckoutPanel.memberIDField.setEditable(false);
+                                CheckoutPanel.memberIDField.setText(authController.getAuthorizedMemberId());
+                                CheckoutPanel.isbnField.requestFocus();
                             } else {
-                                JOptionPane.showMessageDialog(null, "You don\'t have access to Librarian panel!");
-                                return;
+                                CheckoutPanel.memberIDField.setEditable(true);
+                                CheckoutPanel.memberIDField.setText("");
+                                CheckoutPanel.memberIDField.requestFocus();
                             }
-                        } catch (AuthenticationException ex) {
-                            JOptionPane.showMessageDialog(null, ex.getMessage());
-                            return;
+                        } catch (AuthenticationException ignore) {
+
                         }
 
                     }

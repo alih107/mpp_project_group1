@@ -20,7 +20,7 @@ public class LoginPanel extends JPanel {
     private final IAuthController authController = AuthController.getInstance();
 
     LoginPanel() {
-        Toolkit.getDefaultToolkit().setLockingKeyState(KeyEvent.VK_CAPS_LOCK, false);
+//        Toolkit.getDefaultToolkit().setLockingKeyState(KeyEvent.VK_CAPS_LOCK, false);
         this.setLayout(new GridLayout(17, 1, 10, 10));
 
         this.add(new JPanel());

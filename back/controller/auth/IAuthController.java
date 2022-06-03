@@ -10,4 +10,6 @@ public interface IAuthController {
     void logout();
 
     boolean hasAccess(Role role) throws AuthenticationException;
+
+    String getAuthorizedMemberId() throws AuthenticationException;
 }

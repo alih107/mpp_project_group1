@@ -25,6 +25,11 @@ public class AuthController implements IAuthController {
         return authService.hasAccess(role);
     }
 
+    @Override
+    public String getAuthorizedMemberId() throws AuthenticationException {
+        return authService.getAuthorizedMemberId();
+    }
+
     public static AuthController getInstance() {
         return INSTANCE;
     }

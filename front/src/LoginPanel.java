@@ -18,9 +18,9 @@ public class LoginPanel extends JPanel {
     private final JLabel messageLabel = new JLabel();
     private final JLabel warningLabel = new JLabel();
     private final IAuthController authController = AuthController.getInstance();
+    public static final PrintCheckoutPanel printCheckoutPanel = PrintCheckoutPanel.INSTANCE;
 
     LoginPanel() {
-//        Toolkit.getDefaultToolkit().setLockingKeyState(KeyEvent.VK_CAPS_LOCK, false);
         this.setLayout(new GridLayout(17, 1, 10, 10));
 
         this.add(new JPanel());
@@ -110,6 +110,7 @@ public class LoginPanel extends JPanel {
             messageLabel.setText("");
             userField.setText("");
             passField.setText("");
+            printCheckoutPanel.resetPanel();
             LibraryFrame.loginPanel.setVisible(false);
             LibraryFrame.systemPanel.setVisible(true);
         } catch (AuthenticationException e) {

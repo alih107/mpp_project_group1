@@ -55,7 +55,6 @@ public class LibrarianPanel extends JPanel {
                     }
                     case "Print checkout records" -> {
                         bookCheckoutPanel.setVisible(false);
-                        printCheckoutPanel.setVisible(true);
                         try {
                             if (!authController.hasAccess(Role.ADMIN)) {
                                 printCheckoutPanel.memberIDField.setEditable(false);
@@ -63,13 +62,14 @@ public class LibrarianPanel extends JPanel {
                             } else {
                                 printCheckoutPanel.memberIDField.setEditable(true);
                                 printCheckoutPanel.memberIDField.setText("");
-
+                                printCheckoutPanel.memberIDField.requestFocus();
                             }
                             printCheckoutPanel.performPrint();
                         } catch (AuthenticationException ex) {
                             JOptionPane.showMessageDialog(null, ex.getMessage());
                             return;
                         }
+                        printCheckoutPanel.setVisible(true);
                     }
                 }
                 workingPanel.setVisible(true);

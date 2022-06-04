@@ -16,41 +16,34 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.nio.file.AccessDeniedException;
+import java.time.LocalDate;
 import java.util.List;
 
-public class PrintCheckoutPanel extends JPanel {
-    String[] COLUMNS = {"ISBN", "Title", "Book Copy ID", "Library member ID", "Checkout Date", "Due date"};
-    public JTextField memberIDField = new JTextField(10);
-    public final static JTable recordsTable = new JTable();
-    public final static PrintCheckoutPanel INSTANCE = new PrintCheckoutPanel();
+public class OverdueRecordsPanel extends JPanel {
+    String[] COLUMNS = {"ISBN", "Title", "Book Copy ID", "Library Member ID", "Due date", "Status"};
+    public JTextField isbnField = new JTextField(10);
+    private final JTable recordsTable;
+    public final static OverdueRecordsPanel INSTANCE = new OverdueRecordsPanel();
     private final ICheckoutController checkoutController = CheckoutController.getInstance();
 
-    PrintCheckoutPanel() {
+    OverdueRecordsPanel() {
         this.setLayout(new BorderLayout());
 
         JPanel printPanel = new JPanel();
-        printPanel.add(new JLabel("Member ID"));
-        memberIDField.addKeyListener(new TextFieldListener());
-        printPanel.add(memberIDField);
-        JButton printButton = new JButton("Print");
-        printButton.addActionListener(new PrintButtonListener());
-        printPanel.add(printButton);
+        printPanel.add(new JLabel("Book ISBN"));
+        printPanel.addKeyListener(new TextFieldListener());
+        printPanel.add(isbnField);
+        JButton searchButton = new JButton("Search");
+        searchButton.addActionListener(new SearchButtonListener());
+        printPanel.add(searchButton);
         this.add(printPanel, BorderLayout.NORTH);
 
+        recordsTable = new JTable();
         this.add(new JScrollPane(recordsTable), BorderLayout.CENTER);
         this.setVisible(false);
     }
 
-    public static class TableModelGenerator {
-        public static DefaultTableModel getEmptyModel() {
-            return new DefaultTableModel() {
-                @Override
-                public boolean isCellEditable(int row, int column) {
-                    return false;
-                }
-            };
-        }
-
+    private static class TableModelGenerator {
         public static DefaultTableModel getModel(Object[][] data, Object[] cols) {
             return new DefaultTableModel(data, cols) {
                 @Override
@@ -61,11 +54,11 @@ public class PrintCheckoutPanel extends JPanel {
         }
     }
 
-    private class PrintButtonListener implements ActionListener {
+    private class SearchButtonListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            performPrint();
+            performOverdueSearch();
         }
     }
 
@@ -79,7 +72,7 @@ public class PrintCheckoutPanel extends JPanel {
         @Override
         public void keyPressed(KeyEvent e) {
             if (e.getKeyCode()==KeyEvent.VK_ENTER){
-                performPrint();
+                performOverdueSearch();
             }
         }
 
@@ -89,10 +82,10 @@ public class PrintCheckoutPanel extends JPanel {
         }
     }
 
-    public void performPrint() {
+    public void performOverdueSearch() {
         String[][] rows;
         try {
-            List<CheckoutRecord> res = checkoutController.searchCheckouts(CheckoutSearchFilter.createByMemberFilter(memberIDField.getText()));
+            List<CheckoutRecord> res = checkoutController.searchCheckouts(CheckoutSearchFilter.createByIsbn(isbnField.getText()));
             int resLen = res.size();
             rows = new String[resLen][6];
             for (int i = 0; i < resLen; i++) {
@@ -103,19 +96,16 @@ public class PrintCheckoutPanel extends JPanel {
                 rows[i][1] = b.getTitle();
                 rows[i][2] = String.valueOf(bc.getCopyNum());
                 rows[i][3] = c.getMember().getMemberId();
-                rows[i][4] = c.getCheckoutDate().toString();
-                rows[i][5] = c.getDueDate().toString();
+                rows[i][4] = c.getDueDate().toString();
+                rows[i][5] = "";
+                if (LocalDate.now().isAfter(c.getDueDate()) && !bc.isAvailable()) {
+                    rows[i][4] = "Overdue";
+                }
             }
         } catch (AccessDeniedException | AuthenticationException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
             return;
         }
         recordsTable.setModel(TableModelGenerator.getModel(rows, COLUMNS));
-    }
-
-    public void resetPanel() {
-        recordsTable.setModel(TableModelGenerator.getEmptyModel());
-        memberIDField.setText("");
-        memberIDField.setEditable(true);
     }
 }

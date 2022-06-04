@@ -9,6 +9,7 @@ public class AdministratorPanel extends JPanel {
     public static AddMemberPanel addMemberPanel = AddMemberPanel.INSTANCE;
     public static AddBookCopyPanel addBookCopyPanel = AddBookCopyPanel.INSTANCE;
     public static AddBookPanel addBookPanel = AddBookPanel.INSTANCE;
+    public static OverdueRecordsPanel overdueRecordsPanel = OverdueRecordsPanel.INSTANCE;
     private final JPanel workingPanel;
     private final JList<String> menuList;
     public static final AdministratorPanel INSTANCE = new AdministratorPanel();
@@ -21,6 +22,7 @@ public class AdministratorPanel extends JPanel {
         items.addElement("Add a book copy");
         items.addElement("Add a book into collection");
         items.addElement("Add a member");
+        items.addElement("List overdue records");
         menuList = new JList<>(items);
         menuList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
         menuList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -31,6 +33,7 @@ public class AdministratorPanel extends JPanel {
         workingPanel.add(addMemberPanel);
         workingPanel.add(addBookCopyPanel);
         workingPanel.add(addBookPanel);
+        workingPanel.add(overdueRecordsPanel);
         workingPanel.setVisible(false);
         this.add(workingPanel, BorderLayout.CENTER);
 
@@ -48,18 +51,27 @@ public class AdministratorPanel extends JPanel {
                     case "Add a book copy" -> {
                         addMemberPanel.setVisible(false);
                         addBookPanel.setVisible(false);
+                        overdueRecordsPanel.setVisible(false);
                         addBookCopyPanel.setVisible(true);
                     }
                     case "Add a member" -> {
                         addBookCopyPanel.setVisible(false);
                         addBookPanel.setVisible(false);
+                        overdueRecordsPanel.setVisible(false);
                         addMemberPanel.setVisible(true);
                         AddMemberPanel.memberIDField.requestFocus();
                     }
                     case "Add a book into collection" -> {
                         addBookCopyPanel.setVisible(false);
                         addMemberPanel.setVisible(false);
+                        overdueRecordsPanel.setVisible(false);
                         addBookPanel.setVisible(true);
+                    }
+                    case "List overdue records" -> {
+                        addBookCopyPanel.setVisible(false);
+                        addMemberPanel.setVisible(false);
+                        addBookPanel.setVisible(false);
+                        overdueRecordsPanel.setVisible(true);
                     }
                 }
             }

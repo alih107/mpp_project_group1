@@ -15,6 +15,7 @@ import back.service.member.MemberService;
 
 import java.nio.file.AccessDeniedException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -94,6 +95,10 @@ public class CheckoutService extends BaseService implements ICheckoutService {
 
         if (checkoutMap.values().isEmpty()) {
             return Collections.emptyList();
+        }
+
+        if (authService.hasAccess(Role.ADMIN) && (memberId == null || memberId.isEmpty())) {
+            return new ArrayList<>(checkoutMap.values());
         }
 
         String finalMemberId = memberId;

@@ -110,7 +110,7 @@ public class OverdueRecordsPanel extends JPanel {
             data[i][4] = c.getDueDate().toString();
             data[i][5] = "";
             if (LocalDate.now().isAfter(c.getDueDate()) && !bc.isAvailable()) {
-                data[i][4] = "Overdue";
+                data[i][5] = "Overdue";
             }
         }
     }

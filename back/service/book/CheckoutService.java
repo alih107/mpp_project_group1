@@ -1,5 +1,7 @@
 package back.service.book;
 
+import back.repo.dataaccess.DataAccess;
+import back.repo.dataaccess.DataAccessFacade;
 import back.repo.dataaccess.EntityNotFoundException;
 import back.repo.domain.Book;
 import back.repo.domain.BookCopy;
@@ -56,10 +58,10 @@ public class CheckoutService extends BaseService implements ICheckoutService {
         LocalDate now = LocalDate.now();
         LocalDate dueDate = LocalDate.now().plusDays(book.getMaxCheckoutLength());
 
-        dataAccess.addNewCheckoutRecord(CheckoutRecord.createCheckoutRecord(member, bookCopy, now, dueDate));
-
         bookCopy.changeAvailability();
         dataAccess.saveBook(book);
+
+        dataAccess.addNewCheckoutRecord(CheckoutRecord.createCheckoutRecord(member, bookCopy, now, dueDate));
     }
 
     @Override
@@ -80,6 +82,10 @@ public class CheckoutService extends BaseService implements ICheckoutService {
 
         if (checkoutMap.values().isEmpty()) {
             return Collections.emptyList();
+        }
+
+        if (isbn == null || isbn.isEmpty()) {
+            return new ArrayList<>(checkoutMap.values());
         }
 
         return checkoutMap.values().stream()

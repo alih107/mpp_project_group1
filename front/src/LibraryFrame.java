@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class LibraryFrame extends JFrame {
     public static final JPanel loginPanel = LoginPanel.INSTANCE;
-    public static final JPanel systemPanel = AuthorizedPanel.INSTANCE;
+    public static final JPanel authorizedPanel = AuthorizedPanel.INSTANCE;
     public static final LibraryFrame INSTANCE = new LibraryFrame();
 
     public LibraryFrame() {
@@ -17,7 +17,7 @@ public class LibraryFrame extends JFrame {
         Container c = getContentPane();
         JPanel mainPanel = new JPanel(new CardLayout());
         mainPanel.add(loginPanel);
-        mainPanel.add(systemPanel);
+        mainPanel.add(authorizedPanel);
         c.add(mainPanel);
     }
 }

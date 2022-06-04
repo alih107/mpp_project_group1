@@ -112,7 +112,7 @@ public class LoginPanel extends JPanel {
             passField.setText("");
             printCheckoutPanel.resetPanel();
             LibraryFrame.loginPanel.setVisible(false);
-            LibraryFrame.systemPanel.setVisible(true);
+            LibraryFrame.authorizedPanel.setVisible(true);
         } catch (AuthenticationException e) {
             if (messageLabel.getForeground() == Color.RED) {
                 messageLabel.setForeground(Color.ORANGE);

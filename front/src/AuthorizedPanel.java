@@ -63,7 +63,7 @@ public class AuthorizedPanel extends JPanel {
             librarianPanel.setVisible(false);
             administratorPanel.setVisible(false);
             LibraryFrame.loginPanel.setVisible(true);
-            LibraryFrame.systemPanel.setVisible(false);
+            LibraryFrame.authorizedPanel.setVisible(false);
             authController.logout();
         }
     }

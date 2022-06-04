@@ -56,7 +56,7 @@ public class CheckoutService extends BaseService implements ICheckoutService {
         }
 
         LocalDate now = LocalDate.now();
-        LocalDate dueDate = LocalDate.now().plusDays(book.getMaxCheckoutLength());
+        LocalDate dueDate = now.plusDays(book.getMaxCheckoutLength());
 
         bookCopy.changeAvailability();
         dataAccess.saveBook(book);

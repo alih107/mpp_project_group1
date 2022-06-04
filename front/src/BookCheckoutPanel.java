@@ -19,13 +19,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.nio.file.AccessDeniedException;
 
-public class CheckoutPanel extends JPanel {
+public class BookCheckoutPanel extends JPanel {
     public static JTextField memberIDField = new JTextField(10);
     public static JTextField isbnField = new JTextField(10);
-    public static final CheckoutPanel INSTANCE = new CheckoutPanel();
+    public static final BookCheckoutPanel INSTANCE = new BookCheckoutPanel();
     private final ICheckoutController checkoutController = CheckoutController.getInstance();
 
-    CheckoutPanel() {
+    BookCheckoutPanel() {
         this.setLayout(new BorderLayout());
 
         JPanel searchPanel = new JPanel();

@@ -84,13 +84,13 @@ public class AuthorizedPanel extends JPanel {
 
                         try {
                             if (!authController.hasAccess(Role.ADMIN)) {
-                                CheckoutPanel.memberIDField.setEditable(false);
-                                CheckoutPanel.memberIDField.setText(authController.getAuthorizedMemberId());
-                                CheckoutPanel.isbnField.requestFocus();
+                                BookCheckoutPanel.memberIDField.setEditable(false);
+                                BookCheckoutPanel.memberIDField.setText(authController.getAuthorizedMemberId());
+                                BookCheckoutPanel.isbnField.requestFocus();
                             } else {
-                                CheckoutPanel.memberIDField.setEditable(true);
-                                CheckoutPanel.memberIDField.setText("");
-                                CheckoutPanel.memberIDField.requestFocus();
+                                BookCheckoutPanel.memberIDField.setEditable(true);
+                                BookCheckoutPanel.memberIDField.setText("");
+                                BookCheckoutPanel.memberIDField.requestFocus();
                             }
                         } catch (AuthenticationException ignore) {
 

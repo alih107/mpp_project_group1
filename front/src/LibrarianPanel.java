@@ -11,7 +11,7 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 
 public class LibrarianPanel extends JPanel {
-    public static final CheckoutPanel checkoutPanel = CheckoutPanel.INSTANCE;
+    public static final BookCheckoutPanel bookCheckoutPanel = BookCheckoutPanel.INSTANCE;
     public static final PrintCheckoutPanel printCheckoutPanel = PrintCheckoutPanel.INSTANCE;
     private final JPanel workingPanel;
     private final JList<String> menuList;
@@ -32,7 +32,7 @@ public class LibrarianPanel extends JPanel {
         this.add(menuList, BorderLayout.WEST);
 
         workingPanel = new JPanel(new CardLayout());
-        workingPanel.add(checkoutPanel);
+        workingPanel.add(bookCheckoutPanel);
         workingPanel.add(printCheckoutPanel);
         workingPanel.setVisible(false);
         this.add(workingPanel, BorderLayout.CENTER);
@@ -51,10 +51,10 @@ public class LibrarianPanel extends JPanel {
                 switch (menuChoice) {
                     case "Checkout a book" -> {
                         printCheckoutPanel.setVisible(false);
-                        checkoutPanel.setVisible(true);
+                        bookCheckoutPanel.setVisible(true);
                     }
                     case "Print checkout records" -> {
-                        checkoutPanel.setVisible(false);
+                        bookCheckoutPanel.setVisible(false);
                         printCheckoutPanel.setVisible(true);
                         try {
                             if (!authController.hasAccess(Role.ADMIN)) {

@@ -87,7 +87,6 @@ public class AddBookPanel extends JPanel {
         String isbnText = isbnField.getText();
         String titleText = titleField.getText();
         String numOfCopiesText = numOfCopiesField.getText();
-        int numOfCopies = 0;
 
         List<Author> selectedAuthors = new ArrayList<>();
         for (String s : authorList.getSelectedValuesList()) {
@@ -109,7 +108,7 @@ public class AddBookPanel extends JPanel {
             JOptionPane.showMessageDialog(null, errorString);
             return;
         }
-        numOfCopies = Integer.parseInt(numOfCopiesText);
+        int numOfCopies = Integer.parseInt(numOfCopiesText);
         try {
             bookController.createBook(isbnText, titleText, bdt, selectedAuthors, numOfCopies);
         } catch (AuthenticationException | EntityExistException e) {

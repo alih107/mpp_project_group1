@@ -6,11 +6,13 @@ import back.repo.domain.Address;
 import back.repo.domain.LibraryMember;
 import back.repo.domain.Role;
 import back.service.EntityExistException;
+import back.service.auth.AuthenticationException;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.nio.file.AccessDeniedException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -142,7 +144,7 @@ public class AddMemberPanel extends JPanel {
 
         try {
             memberController.createNewMember(lm, passText);
-        } catch (EntityExistException e) {
+        } catch (EntityExistException | AccessDeniedException | AuthenticationException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
             return;
         }

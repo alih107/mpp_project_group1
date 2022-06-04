@@ -84,18 +84,10 @@ public class AddBookPanel extends JPanel {
     }
 
     private void performAddBook() {
-        StringBuilder sb = new StringBuilder();
         String isbnText = isbnField.getText();
         String titleText = titleField.getText();
         String numOfCopiesText = numOfCopiesField.getText();
-        BorrowDaysType bdt = (BorrowDaysType) borrowTypeBox.getSelectedItem();
         int numOfCopies = 0;
-        if (isbnText.isEmpty()) {
-            sb.append("Book ISBN cannot empty!\n");
-        }
-        if (titleText.isEmpty()) {
-            sb.append("Book title cannot empty!\n");
-        }
 
         List<Author> selectedAuthors = new ArrayList<>();
         for (String s : authorList.getSelectedValuesList()) {
@@ -110,24 +102,14 @@ public class AddBookPanel extends JPanel {
 
             }
         }
-        if (selectedAuthors.size() <= 0) {
-            sb.append("You have to choose at least 1 author!\n");
-        }
 
-        try {
-            numOfCopies = Integer.parseInt(numOfCopiesText);
-        } catch (NumberFormatException e) {
-            sb.append("Number of copies should be a number!\n");
-        }
-        if (numOfCopies <= 0) {
-            sb.append("Number of copies must be at least 1\n");
-        }
-
-        if (!sb.isEmpty()) {
-            JOptionPane.showMessageDialog(null, sb.toString());
+        BorrowDaysType bdt = (BorrowDaysType) borrowTypeBox.getSelectedItem();
+        String errorString = validateFields(isbnText, titleText, selectedAuthors, numOfCopiesText);
+        if (!errorString.isBlank()) {
+            JOptionPane.showMessageDialog(null, errorString);
             return;
         }
-
+        numOfCopies = Integer.parseInt(numOfCopiesText);
         try {
             bookController.createBook(isbnText, titleText, bdt, selectedAuthors, numOfCopies);
         } catch (AuthenticationException | EntityExistException e) {
@@ -139,5 +121,29 @@ public class AddBookPanel extends JPanel {
         titleField.setText("");
         numOfCopiesField.setText("");
         authorList.clearSelection();
+    }
+
+    private String validateFields(String isbnText, String titleText, List<Author> selectedAuthors, String numOfCopiesText) {
+        StringBuilder sb = new StringBuilder();
+        if (isbnText.isEmpty()) {
+            sb.append("Book ISBN cannot empty!\n");
+        }
+        if (titleText.isEmpty()) {
+            sb.append("Book title cannot empty!\n");
+        }
+        if (selectedAuthors.size() <= 0) {
+            sb.append("You have to choose at least 1 author!\n");
+        }
+
+        int numOfCopies = 0;
+        try {
+            numOfCopies = Integer.parseInt(numOfCopiesText);
+        } catch (NumberFormatException e) {
+            sb.append("Number of copies should be a number!\n");
+        }
+        if (numOfCopies <= 0) {
+            sb.append("Number of copies must be at least 1\n");
+        }
+        return sb.toString();
     }
 }

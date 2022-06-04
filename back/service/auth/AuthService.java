@@ -20,11 +20,11 @@ public class AuthService extends BaseService implements IAuthService {
         if (!map.containsKey(id)) {
             throw new AuthenticationException("ID " + id + " not found");
         }
-        String passwordFound = map.get(id).getPassword();
-        if (!passwordFound.equals(passwd)) {
+        User foundUser = map.get(id);
+        if (!foundUser.getPassword().equals(passwd)) {
             throw new AuthenticationException("Password incorrect");
         }
-        currentAuth = map.get(id);
+        currentAuth = foundUser;
     }
 
     public void logout() {

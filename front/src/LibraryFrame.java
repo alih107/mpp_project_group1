@@ -6,6 +6,7 @@ import java.awt.*;
 public class LibraryFrame extends JFrame {
     public static final JPanel loginPanel = LoginPanel.INSTANCE;
     public static final JPanel systemPanel = AuthorizedPanel.INSTANCE;
+    public static final LibraryFrame INSTANCE = new LibraryFrame();
 
     public LibraryFrame() {
         setTitle("Library Group 1");

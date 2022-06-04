@@ -29,23 +29,6 @@ final public class Book implements Serializable {
         copies = new BookCopy[]{new BookCopy(this, 1, true)};
     }
 
-    public void updateCopies(BookCopy copy) {
-        for (int i = 0; i < copies.length; ++i) {
-            BookCopy c = copies[i];
-            if (c.equals(copy)) {
-                copies[i] = copy;
-            }
-        }
-    }
-
-    public List<Integer> getCopyNums() {
-        List<Integer> retVal = new ArrayList<>();
-        for (BookCopy c : copies) {
-            retVal.add(c.getCopyNum());
-        }
-        return retVal;
-    }
-
     public void addCopy() {
         BookCopy[] newArr = new BookCopy[copies.length + 1];
         System.arraycopy(copies, 0, newArr, 0, copies.length);
@@ -75,10 +58,6 @@ final public class Book implements Serializable {
         return "isbn: " + isbn + ", maxLength: " + borrowDaysType.days + ", available: " + isAvailable();
     }
 
-    public int getNumCopies() {
-        return copies.length;
-    }
-
     public String getTitle() {
         return title;
     }
@@ -100,15 +79,6 @@ final public class Book implements Serializable {
                 = Arrays.stream(copies)
                 .filter(BookCopy::isAvailable).findFirst();
         return optional.orElse(null);
-    }
-
-    public BookCopy getCopy(int copyNum) {
-        for (BookCopy c : copies) {
-            if (copyNum == c.getCopyNum()) {
-                return c;
-            }
-        }
-        return null;
     }
 
     public int getMaxCheckoutLength() {

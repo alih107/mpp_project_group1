@@ -17,7 +17,7 @@ public class AddBookCopyPanel extends JPanel {
     private final IBookController bookController = BookController.getInstance();
 
     AddBookCopyPanel() {
-        setLayout(new BorderLayout());
+        this.setLayout(new BorderLayout());
 
         JPanel searchPanel = new JPanel();
         searchPanel.add(new JLabel("Book ISBN"));

@@ -5,7 +5,7 @@ import back.controller.member.MemberController;
 import back.repo.domain.Address;
 import back.repo.domain.LibraryMember;
 import back.repo.domain.Role;
-import back.service.member.MemberExistException;
+import back.service.EntityExistException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -142,7 +142,7 @@ public class AddMemberPanel extends JPanel {
 
         try {
             memberController.createNewMember(lm, passText);
-        } catch (MemberExistException e) {
+        } catch (EntityExistException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
             return;
         }

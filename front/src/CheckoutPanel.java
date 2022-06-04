@@ -26,7 +26,7 @@ public class CheckoutPanel extends JPanel {
     private final ICheckoutController checkoutController = CheckoutController.getInstance();
 
     CheckoutPanel() {
-        setLayout(new BorderLayout());
+        this.setLayout(new BorderLayout());
 
         JPanel searchPanel = new JPanel();
         searchPanel.add(new JLabel("Member ID"));

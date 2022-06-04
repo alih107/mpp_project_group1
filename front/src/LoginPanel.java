@@ -119,7 +119,7 @@ public class LoginPanel extends JPanel {
             } else {
                 messageLabel.setForeground(Color.RED);
             }
-            messageLabel.setText("Invalid username and/or password");
+            messageLabel.setText(e.getMessage());
         }
     }
 }

@@ -83,29 +83,35 @@ public class OverdueRecordsPanel extends JPanel {
     }
 
     public void performOverdueSearch() {
-        String[][] rows;
+        String[][] data;
+        List<CheckoutRecord> res;
         try {
-            List<CheckoutRecord> res = checkoutController.searchCheckouts(CheckoutSearchFilter.createByIsbn(isbnField.getText()));
-            int resLen = res.size();
-            rows = new String[resLen][6];
-            for (int i = 0; i < resLen; i++) {
-                CheckoutRecord c = res.get(i);
-                BookCopy bc = c.getBookCopy();
-                Book b = bc.getBook();
-                rows[i][0] = b.getIsbn();
-                rows[i][1] = b.getTitle();
-                rows[i][2] = String.valueOf(bc.getCopyNum());
-                rows[i][3] = c.getMember().getMemberId();
-                rows[i][4] = c.getDueDate().toString();
-                rows[i][5] = "";
-                if (LocalDate.now().isAfter(c.getDueDate()) && !bc.isAvailable()) {
-                    rows[i][4] = "Overdue";
-                }
-            }
+            res = checkoutController.searchCheckouts(CheckoutSearchFilter.createByIsbn(isbnField.getText()));
+
         } catch (AccessDeniedException | AuthenticationException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
             return;
         }
-        recordsTable.setModel(TableModelGenerator.getModel(rows, COLUMNS));
+        int resLen = res.size();
+        data = new String[resLen][6];
+        fillData(data, res, resLen);
+        recordsTable.setModel(TableModelGenerator.getModel(data, COLUMNS));
+    }
+
+    private void fillData(String[][] data, List<CheckoutRecord> res, int resLen) {
+        for (int i = 0; i < resLen; i++) {
+            CheckoutRecord c = res.get(i);
+            BookCopy bc = c.getBookCopy();
+            Book b = bc.getBook();
+            data[i][0] = b.getIsbn();
+            data[i][1] = b.getTitle();
+            data[i][2] = String.valueOf(bc.getCopyNum());
+            data[i][3] = c.getMember().getMemberId();
+            data[i][4] = c.getDueDate().toString();
+            data[i][5] = "";
+            if (LocalDate.now().isAfter(c.getDueDate()) && !bc.isAvailable()) {
+                data[i][4] = "Overdue";
+            }
+        }
     }
 }

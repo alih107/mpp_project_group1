@@ -1736,7 +1736,7 @@
 												"$ref": "AAAAAAGBL0YgBtKK8mM="
 											},
 											"edgePosition": 1,
-											"text": "9 : DataAccessFacade"
+											"text": "9 : readMemberMap"
 										},
 										{
 											"_type": "EdgeLabelView",
@@ -4514,7 +4514,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGBLzpiBtDs1j8="
 							},
-							"name": "DataAccessFacade",
+							"name": "readMemberMap",
 							"source": {
 								"$ref": "AAAAAAGBL0P6sNIMZFo="
 							},
